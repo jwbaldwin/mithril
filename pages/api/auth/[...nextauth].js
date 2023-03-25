@@ -26,11 +26,9 @@ export const authOptions = {
     })
   ],
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-    error: '/auth/error', // Error code passed in query string as ?error=
-    verifyRequest: '/auth/verify-request', // used for check email message
-  }
+    signIn: '/signin',
+  },
+  secret: process.env.NEXTAUTH_SECRET
 }
 
 export default NextAuth(authOptions)
