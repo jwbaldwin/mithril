@@ -20,18 +20,15 @@ export default async function RootLayout({
   const session = await getServerSession()
 
   return (
-    <html lang="en" className="h-full bg-gray-50 antialiased">
-      <body className="h-full">
-        <AuthContext session={session}>
-          <Suspense fallback="...">
-            {/* @ts-expect-error Server Component */}
-            <Nav />
-          </Suspense>
-          {children}
-        </AuthContext>
-        <AnalyticsWrapper />
-      </body>
-    </html>
+    <>
+      <AuthContext session={session}>
+        <Suspense fallback="...">
+          {/* @ts-expect-error Server Component */}
+          <Nav />
+        </Suspense>
+        {children}
+      </AuthContext>
+    </>
   );
 }
 
