@@ -143,7 +143,7 @@ export default function Navbar({ user }: { user: any }) {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
+                  as={Link}
                   href={item.href}
                   className={classNames(
                     pathname === item.href
