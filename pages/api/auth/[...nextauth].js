@@ -1,26 +1,24 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import api from "../../../lib/api"
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'Email' },
+        email: { label: 'Email', type: 'text', placeholder: 'Email' },
         password: { label: 'Password', type: 'password', placeholder: 'Password' }
       },
-      async authorize(_credentials, _req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: "1", name: "Tim Cook", email: "tcook@example.com" }
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+      async authorize(credentials, _req) {
+        if (!credentials) { return null; }
+        try {
+          const response = await api.post("session", { user: { email: credentials.email, password: credentials.password } })
+          if (response.status == 200) {
+            return response.data.data
+          }
+        } catch (error) {
+          throw new Error(error.message);
         }
       }
     })
@@ -31,7 +29,43 @@ export const authOptions = {
   session: {
     strategy: "jwt"
   },
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        return {
+          accessToken: user.access_token,
+          refreshToken: user.renewal_token,
+          accessTokenExpires: Math.floor(Date.now() + (60 * 30 * 1000)), // 30 minutes from now
+          user: user.user
+        }
+      }
+
+      if (Date.now() >= token.accessTokenExpires) {
+        const response = await api.post("session/renew", {}, { headers: { 'Authorization': `${token.refreshToken}` } })
+
+        if (response.status == 200) {
+          const data = response.data.data
+          return {
+            ...token,
+            accessToken: data.access_token,
+            refreshToken: data.renewal_token,
+            accessTokenExpires: Math.floor(Date.now() + (60 * 30 * 1000)), // 30 minutes from now
+          }
+        }
+      } else {
+        return token
+      }
+    },
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      session.refreshToken = token.refreshToken;
+      session.accessTokenExpires = token.accessTokenExpires;
+      session.user = token.user;
+
+      return session;
+    },
+  },
 }
 
 export default NextAuth(authOptions)

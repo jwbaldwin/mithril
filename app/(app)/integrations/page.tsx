@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import crypto from "crypto";
 import Cookies from 'js-cookie';
+import React from "react";
 
 const Integrations = () => {
   const searchParams = useSearchParams()!;
@@ -34,6 +35,7 @@ const Integrations = () => {
     };
 
     const params = new URLSearchParams(searchParams);
+    console.log("params", params)
 
     if (!params.has("hmac")) return;
 
@@ -67,6 +69,5 @@ const Integrations = () => {
   );
 };
 
-// test url localhost:3000/integrations?code=0907a61c0c8d55e99db179b68161bc00&hmac=700e2dadb827fcc8609e9d5ce208b2e9cdaab9df07390d2cbca10d7c328fc4bf&shop={shop}.myshopify.com&state=0.6784241404160823&timestamp=1337178173
 
 export default Integrations;

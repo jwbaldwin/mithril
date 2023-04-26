@@ -1,6 +1,7 @@
 import './globals.css';
 
 import AnalyticsWrapper from './analytics';
+import React from 'react';
 
 export const metadata = {
   title: 'Kept - Engage at human scale',

@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
+import React from 'react';
 
 const navigation = [
   { name: 'Your advocates', href: '/' },
@@ -93,6 +94,17 @@ export default function Navbar({ user }: { user: any }) {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {user ?
+                        <Menu.Item>
+                          <div className="px-4 py-2 text-sm">
+                            <div className="font-medium text-gray-800">
+                              {user.name}
+                            </div>
+                            <div className="text-xs font-medium text-gray-500">
+                              {user.email}
+                            </div>
+                          </div>
+                        </Menu.Item> : null}
                       {user ? (
                         <Menu.Item>
                           {({ active }) => (
@@ -163,13 +175,14 @@ export default function Navbar({ user }: { user: any }) {
                 <>
                   <div className="flex items-center px-4">
                     <div className="flex-shrink-0">
-                      <Image
-                        className="h-8 w-8 rounded-full"
-                        src={user.image}
-                        height={32}
-                        width={32}
-                        alt={`${user.name} avatar`}
-                      />
+                      {user.image ?
+                        <Image
+                          className="h-8 w-8 rounded-full"
+                          src={user.image}
+                          height={32}
+                          width={32}
+                          alt={`${user.name} avatar`}
+                        /> : null}
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium text-gray-800">
@@ -202,7 +215,8 @@ export default function Navbar({ user }: { user: any }) {
             </div>
           </Disclosure.Panel>
         </>
-      )}
-    </Disclosure>
+      )
+      }
+    </Disclosure >
   );
 }

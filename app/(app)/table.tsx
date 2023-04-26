@@ -8,6 +8,7 @@ import {
   TableCell,
   Text
 } from '@tremor/react';
+import React from 'react';
 
 interface User {
   id: number;

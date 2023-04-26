@@ -29,7 +29,6 @@ export default function SignIn() {
       password: params.password
     })
     if (response?.error) {
-      console.log(response)
       setParams({ ...params, error: response.error, isSubmitting: false })
     } else {
       router.push(callbackUrl)
@@ -37,7 +36,6 @@ export default function SignIn() {
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("changing")
     setParams({ ...params, [e.target.name]: e.target.value })
   }
 

@@ -1,4 +1,5 @@
 import { Title, Text } from '@tremor/react';
+import React from 'react';
 
 export default async function Loading() {
   return (
