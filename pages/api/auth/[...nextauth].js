@@ -27,12 +27,12 @@ export const authOptions = {
     signIn: '/signin',
   },
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, account }) {
+      if (user && account) {
         return {
           accessToken: user.access_token,
           refreshToken: user.renewal_token,
@@ -44,6 +44,7 @@ export const authOptions = {
       if (Date.now() >= token.accessTokenExpires) {
         const response = await api.post("session/renew", {}, { headers: { 'Authorization': `${token.refreshToken}` } })
 
+        console.log("tok", response.data.data.access_token)
         if (response.status == 200) {
           const data = response.data.data
           return {

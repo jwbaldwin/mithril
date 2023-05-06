@@ -10,8 +10,7 @@ import Image from 'next/image';
 import React from 'react';
 
 const navigation = [
-  { name: 'Your advocates', href: '/' },
-  { name: 'Engagement builder', href: '/playground' },
+  { name: 'Home', href: '/' },
   { name: 'Integrations', href: '/integrations' }
 ];
 
