@@ -2,7 +2,7 @@
 type Product = {
   id: number,
   title: string,
-  published_at: date
+  published_at: Date
 };
 
 type Customer = {
