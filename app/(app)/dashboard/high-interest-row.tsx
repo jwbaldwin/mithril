@@ -30,17 +30,18 @@ export default function HighInterestRow({ brief }: { brief: Brief }) {
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">Consider adjusting sourcing accordingly</td>
       </tr>
       {showProducts ?
-        brief.high_interest_products.products.map((product) =>
-        (
-          <tr key={product.id}>
-            <td>
-              <ArrowLongRightIcon className="-mr-0.5 h-5 w-5" aria-hidden="true" />
-            </td>
-            <td className="text-sm text-gray-700 font-medium">{brief.high_interest_products.quantity} x {product.title}</td>
-            <td className="text-sm text-gray-700 font-semibold">added {format(parseISO(product.published_at), 'MMMM d, yyyy')}</td>
-            <td></td>
-          </tr>
-        ))
+        brief.high_interest_products.products.map((product) => {
+          return (
+            <tr key={product.id}>
+              <td>
+                <ArrowLongRightIcon className="-mr-0.5 h-5 w-5" aria-hidden="true" />
+              </td>
+              <td className="text-sm text-gray-700 font-medium">{brief.high_interest_products.quantity} x {product.title}</td>
+              <td className="text-sm text-gray-700 font-semibold">added {format(parseISO(product.published_at), 'MMMM d, yyyy')}</td>
+              <td></td>
+            </tr>
+          );
+        })
         : null}
     </>
   )

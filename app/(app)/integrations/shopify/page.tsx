@@ -158,7 +158,7 @@ export default function Shopify() {
                 <div className="ml-3">
                   <h3 className="text-base font-medium text-green-800">Shopify linked!</h3>
                   <div className="mt-2 text-sm text-green-700">
-                    <p>We're now syncing with your shop</p>
+                    <p>We&apos;re now syncing with your shop</p>
                   </div>
                   <div className="mt-4">
                     <div className="-mx-2 -my-1.5 flex">
