@@ -1,7 +1,6 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -10,7 +9,7 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 export default function SignIn() {
   const router = useRouter()
 
-  const callbackUrl = (useSearchParams()?.get('callbackUrl')) ?? "/"
+  const callbackUrl = (useSearchParams()?.get('callbackUrl')) ?? "/dashboard"
 
   const [params, setParams] = useState({
     isSubmitting: false,

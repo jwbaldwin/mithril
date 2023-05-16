@@ -19,7 +19,7 @@ export interface Brief {
   new_products: Product[];
   top_customers: {
     total_spent: number;
-    customers: CustomerData[];
+    top_customers: CustomerData[];
   };
   high_interest_products: {
     quantity: number;

@@ -3,7 +3,7 @@
 import { ArrowLongRightIcon } from '@heroicons/react/20/solid';
 import { format, parseISO } from 'date-fns';
 import React, { useState } from 'react';
-import { Brief } from '../../types/brief';
+import { Brief } from '../../../types/brief';
 
 var pluralize = require('pluralize')
 

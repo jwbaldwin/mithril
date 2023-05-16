@@ -2,7 +2,7 @@
 
 import { ArrowLongRightIcon } from '@heroicons/react/20/solid';
 import React, { useState } from 'react';
-import { Brief } from '../../types/brief';
+import { Brief } from '../../../types/brief';
 
 export default function TopCustomerRow({ brief }: { brief: Brief }) {
   const [showCustomers, setShowCustomers] = useState(false)
@@ -24,7 +24,7 @@ export default function TopCustomerRow({ brief }: { brief: Brief }) {
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">Send a personalized reward</td>
       </tr>
       {showCustomers ?
-        brief.top_customers.customers.map(({ customer, total_spent }) =>
+        brief.top_customers.top_customers.map(({ customer, total_spent }: { customer: any, total_spent: number }) =>
         (
           <tr key={customer.id}>
             <td>
