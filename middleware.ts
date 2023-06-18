@@ -9,5 +9,5 @@ export const config = {
      * - favicon.ico (favicon file)
      * - signin, register
      */
-    '/((?!_next/static|_next/image|favicon.ico|signin|register|static|policies).*)',]
+    '/((?!_next/static|_next/image|favicon.ico|signin|register|shopify|static|policies).*)',]
 }

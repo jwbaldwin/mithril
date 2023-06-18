@@ -74,16 +74,25 @@ export default function Navbar({ user }: { user: any }) {
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {user ?
-                        <Menu.Item>
-                          <div className="px-4 py-2 text-sm">
-                            <div className="font-medium text-gray-800">
-                              {user.name}
+                        <>
+                          <Menu.Item>
+                            <div className="px-4 py-2 text-sm">
+                              <div className="font-medium text-gray-800">
+                                {user.name}
+                              </div>
+                              <div className="text-xs font-medium text-gray-500">
+                                {user.email}
+                              </div>
                             </div>
-                            <div className="text-xs font-medium text-gray-500">
-                              {user.email}
+                          </Menu.Item>
+                          <Menu.Item>
+                            <div className="px-4 py-2 text-sm">
+                              <Link href="/account" className="font-medium text-gray-800">
+                                Update password
+                              </Link>
                             </div>
-                          </div>
-                        </Menu.Item> : null}
+                          </Menu.Item>
+                        </> : null}
                       {user ? (
                         <Menu.Item>
                           {({ active }) => (
