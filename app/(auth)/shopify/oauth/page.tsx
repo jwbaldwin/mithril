@@ -118,13 +118,12 @@ export default function Shopify() {
     }
   });
 
-  // if (isLinking && isLinked) {
-  if (true) {
+  if (isLinking && isLinked) {
     return (<div className="flex min-h-full items-center -my-20 justify-center px-4 sm:px-6 lg:px-8 tracking-tight">
       <div className="flex flex-col items-center">
         <Image src="/static/logo.svg" alt="kept" width="120" height="120" />
         <div className="w-full max-w-lg pt-8">
-          {true ?
+          {isLinked ?
             <div className="rounded-md bg-green-50 border border-green-400 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
