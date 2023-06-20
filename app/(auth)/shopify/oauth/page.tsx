@@ -9,12 +9,14 @@ import api from "../../../../lib/api"
 import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { CheckCircleIcon, ChevronLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid';
+import { useRouter } from 'next/navigation'
 
 export default function Shopify() {
   const [isLinking, setIsLinking] = useState(false)
   const [isLinked, setIsLinked] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const searchParams = useSearchParams()!;
+  const router = useRouter()
   const params = new URLSearchParams(searchParams);
 
   interface OAuthSuccessResponse {
@@ -93,7 +95,7 @@ export default function Shopify() {
           code: code
         }
         api.post('oauth/shopify', data)
-          .then((response: AxiosResponse<OAuthSuccessResponse>) => {
+          .then((_response: AxiosResponse<OAuthSuccessResponse>) => {
             // Cookies.remove(response.data.shop)
             setIsLinked(true)
             setIsLoading(false)
@@ -107,15 +109,22 @@ export default function Shopify() {
       }
     }
 
-    if (params.has("hmac") && !params.has("code")) {
-      setIsLinking(true)
-      partOneOAuthVerification()
-    } else if (params.has("hmac") && params.has("code")) {
-      setIsLinking(true)
-      partTwoOAuthVerification()
-    } else {
-      return;
-    }
+    const shop = params.get("shop")!.split('.')[0];
+    api.get(`oauth/shopify/${shop}`)
+      .then(_response => {
+        router.push("/dashboard")
+      })
+      .catch(_error => {
+        if (params.has("hmac") && !params.has("code")) {
+          setIsLinking(true)
+          partOneOAuthVerification()
+        } else if (params.has("hmac") && params.has("code")) {
+          setIsLinking(true)
+          partTwoOAuthVerification()
+        } else {
+          return;
+        }
+      })
   });
 
   if (isLinking && isLinked) {
