@@ -20,7 +20,7 @@ export default function SignIn() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setParams({ ...params, isSubmitting: true })
+    setParams({ ...params, isSubmitting: true, error: "" })
 
     const response = await signIn('credentials', {
       redirect: false,
@@ -28,7 +28,7 @@ export default function SignIn() {
       password: params.password
     })
     if (response?.error) {
-      setParams({ ...params, error: response.error, isSubmitting: false })
+      setParams({ ...params, error: "Email or password was incorrect.", isSubmitting: false })
     } else {
       router.push(callbackUrl)
     }
@@ -50,6 +50,7 @@ export default function SignIn() {
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit} method="POST">
             <input type="hidden" name="remember" defaultValue="true" />
+            {params.error && <p className="text-sm mb-2 text-red-500">{params.error}</p>}
             <div className="space-y-3 rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
@@ -87,6 +88,7 @@ export default function SignIn() {
             <div>
               <button
                 type="submit"
+                disabled={params.isSubmitting}
                 className="group relative flex w-full justify-center rounded-md bg-gray-900 py-3 px-3 text-sm font-semibold text-white hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
               >
                 {params.isSubmitting ? <svg className="animate-spin absolute left-[25%] sm:left-[30%] mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
