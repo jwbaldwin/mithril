@@ -32,7 +32,7 @@ export default function Regiser() {
     e.preventDefault()
     setParams({ ...params, isSubmitting: true })
 
-    const response = await api.post('registration', {
+    api.post('registration', {
       user: {
         name: params.name,
         email: params.email,
@@ -40,21 +40,30 @@ export default function Regiser() {
         password_confirmation: params.confirmPassword
       }
     })
-    if (response?.status != 201) {
-      setParams({ ...params, error: response.statusText, isSubmitting: false })
-    } else {
-      setParams({ ...params, isSubmitting: true, isLoggingIn: true })
-      const response = await signIn('credentials', {
-        redirect: false,
-        email: params.email,
-        password: params.password
+      .then(_response => {
+        setParams({ ...params, isSubmitting: true, isLoggingIn: true })
+        signIn('credentials', {
+          redirect: false,
+          email: params.email,
+          password: params.password
+        }).then(_response => {
+          router.push(callbackUrl)
+        }).catch(_error => {
+          setParams({ ...params, error: "Email or password incorrect. Try going to the Sign in page and trying again.", isSubmitting: false })
+        })
       })
-      if (response?.error) {
-        setParams({ ...params, error: response.error, isSubmitting: false })
-      } else {
-        router.push(callbackUrl)
-      }
-    }
+      .catch(error => {
+        let responseErrors = error.response.data.error.errors
+        const errorMessages = [];
+        for (const key in responseErrors) {
+          const errors = responseErrors[key];
+          const errorMessage = key + " " + errors.join(", ");
+          errorMessages.push(errorMessage);
+        }
+
+        const result = errorMessages.join(".")
+        setParams({ ...params, error: result, isSubmitting: false })
+      })
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +79,7 @@ export default function Regiser() {
             <Image src="/static/logo.svg" alt="kept" width="120" height="120" />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Create an account</h2>
           </div>
+          {params.error && <p className="text-sm mb-2 text-red-500">{params.error}</p>}
           <form className="mt-8 space-y-6" onSubmit={handleSubmit} method="POST">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="space-y-3 rounded-md shadow-sm">

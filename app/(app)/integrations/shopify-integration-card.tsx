@@ -49,14 +49,10 @@ const ShopifyIntegrationCard = (props: any) => {
           {props.integration ?
             <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
               Synced
-            </span>
-            :
-            <Link
-              href="/integrations/shopify"
-              className="flex items-center text-sm tracking-tight font-medium text-gray-700 hover:text-gray-800"
-            >
-              Add Integration <ChevronRightIcon className="-ml-0.5 h-4 w-5" aria-hidden="true" />
-            </Link>}
+            </span> :
+            <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600">
+              Install via Shopify App Store
+            </span>}
         </div>
       </div>
     </div>)

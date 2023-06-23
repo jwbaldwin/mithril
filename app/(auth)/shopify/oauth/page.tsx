@@ -110,21 +110,21 @@ export default function Shopify() {
     }
 
     const shop = params.get("shop")!.split('.')[0];
-    api.get(`oauth/shopify/${shop}`)
-      .then(_response => {
-        router.push("/dashboard")
-      })
-      .catch(_error => {
-        if (params.has("hmac") && !params.has("code")) {
+    if (params.has("hmac") && !params.has("code")) {
+      api.get(`oauth/shopify/${shop}`)
+        .then(_response => {
+          router.push("/dashboard")
+        })
+        .catch(_error => {
           setIsLinking(true)
           partOneOAuthVerification()
-        } else if (params.has("hmac") && params.has("code")) {
-          setIsLinking(true)
-          partTwoOAuthVerification()
-        } else {
-          return;
-        }
-      })
+        })
+    } else if (params.has("hmac") && params.has("code")) {
+      setIsLinking(true)
+      partTwoOAuthVerification()
+    } else {
+      return;
+    }
   });
 
   if (isLinking && isLinked) {

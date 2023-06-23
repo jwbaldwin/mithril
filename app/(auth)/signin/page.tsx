@@ -22,16 +22,20 @@ export default function SignIn() {
     e.preventDefault()
     setParams({ ...params, isSubmitting: true, error: "" })
 
-    const response = await signIn('credentials', {
+    signIn('credentials', {
       redirect: false,
       email: params.email,
       password: params.password
     })
-    if (response?.error) {
-      setParams({ ...params, error: "Email or password was incorrect.", isSubmitting: false })
-    } else {
-      router.push(callbackUrl)
-    }
+      .then(response => {
+        if (response?.error) {
+          setParams({ ...params, error: "Email or password was incorrect.", isSubmitting: false })
+        } else {
+          window.location.href = callbackUrl
+        }
+      }).catch(_ => {
+        setParams({ ...params, error: "Email or password was incorrect.", isSubmitting: false })
+      })
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
