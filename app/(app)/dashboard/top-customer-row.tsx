@@ -30,10 +30,11 @@ export default function TopCustomerRow({ brief }: { brief: Brief }) {
             <td>
               <ArrowLongRightIcon className="-mr-0.5 h-5 w-5" aria-hidden="true" />
             </td>
-            <td className="text-sm text-gray-700 font-medium">{customer.email}</td>
+            <td className="text-sm text-gray-700 font-medium">{customer.email ? customer.email : "<redacted>"}</td>
             <td className="text-sm text-gray-700 font-semibold">
-              ${total_spent}
+              spent ${total_spent}
             </td>
+            <td className="text-sm text-gray-700 font-medium">{customer.shopify_id ? `shopify customer id: ${customer.shopify_id}` : "<redacted>"}</td>
             <td></td>
           </tr>
         ))
